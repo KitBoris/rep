@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 cap = cv2.VideoCapture('0%_3_ml_min_200_mm_35_gr.MOV')
 frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-min_width_height = 20
-max_width_height = 70
-frame_data = []
+min_w_h = 20
+max_w_h = 70
+data = []
 frame_number = 0
 
 while cap.isOpened():
@@ -28,7 +28,7 @@ while cap.isOpened():
     for i in range(len(contours)):
         if len(contours[i]) >= 5:
             x, y, w, h = cv2.boundingRect(contours[i])
-            if min_width_height <= w <= max_width_height and min_width_height <= h <= max_width_height:
+            if min_w_h <= w <= max_w_h and min_w_h <= h <= max_w_h:
                 center_x = x + w // 2
                 center_y = y + h // 2
                 center_tuple = (center_x, center_y)
@@ -36,7 +36,7 @@ while cap.isOpened():
 
                 cv2.rectangle(contour_image, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
-                frame_data.append((frame_number, center_x, center_y, w, h))
+                data.append((frame_number, center_x, center_y, w, h))
 
                 # if i == 0:  # Внешний контур
                 #    cv2.drawContours(contour_image, contours, i, (0, 255, 0), 3)  # Зеленый цвет
@@ -52,7 +52,7 @@ while cap.isOpened():
 cap.release()
 
 with open('frame_data.txt', 'w') as f:
-    for frame_info in frame_data:
+    for frame_info in data:
         frame_num = frame_info[0]
         center_x = frame_info[1]
         center_y = frame_info[2]
@@ -64,7 +64,7 @@ with open('frame_data.txt', 'w') as f:
 all_centers_x = []
 all_centers_y = []
 
-for _, cx, cy, _, _ in frame_data:
+for _, cx, cy, _, _ in data:
     all_centers_x.append(cx)
     all_centers_y.append(cy)
 
