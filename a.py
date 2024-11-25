@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 import matplotlib.pyplot as plt
 
 cap = cv2.VideoCapture('0%_3_ml_min_200_mm_35_gr.MOV')
@@ -27,7 +28,6 @@ while cap.isOpened():
         if hierarchy[0][i][3] == -1:
             area = cv2.contourArea(contours[i])
             x, y, w, h = cv2.boundingRect(contours[i])
-
             if min_w_h <= w <= max_w_h and min_w_h <= h <= max_w_h:
                 center_x = x + w // 2
                 center_y = y + h // 2
